@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="60"></head>
+    <title>Smart Home</title>
+    <!-- EXTERNAL LIBS-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://www.google.com/jsapi"></script>
+    
+    <!-- EXAMPLE SCRIPT -->
+    <script>
+
+      // onload callback
+      function drawChart() {
+
+        var cloud_url = 'https://data.sparkfun.com/output/';
+        // Public Key from https://data.sparkfun.com
+        var public_key = 'q5njo01A2GImgabArVp3';
+
+        // JSONP request
+        var jsonData = $.ajax({
+          url:  cloud_url + public_key + '.json',
+          data: {page: 1},
+          dataType: 'jsonp',
+        }).done(function (results) {
+          var latest = results[0];
+          
+          var tempGauge = new google.visualization.Gauge($('#tempGauge').get(0));
+          var tempGaugeData = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['Temp', 0],
+          ]);
+          var tempGaugeOptions = {
+            width: 600,
+            redFrom: 30, redTo: 50,
+            greenFrom:21, greenTo: 30,
+            yellowFrom:0, yellowTo: 21,
+            minorTicks: 5,
+            max: 50
+          };
+
+          // For animation purpose only
+          tempGauge.draw(tempGaugeData,tempGaugeOptions);
+
+          // Show real data
+          tempGaugeData.setValue(0,1,parseFloat(latest.temp));
+              
+          tempGauge.draw(tempGaugeData,tempGaugeOptions);
+
+          var humidityGauge = new google.visualization.Gauge($('#humidityGauge').get(0));
+          var humidityGaugeData = google.visualization.arrayToDataTable([
+            ['Label', 'Value'],
+            ['Humidity', 0],
+          ]);
+          var humidityGaugeOptions = {
+            width: 600,
+            redFrom: 45, redTo: 100,
+            greenFrom:30, greenTo: 45,
+            yellowFrom:0, yellowTo: 30,
+            minorTicks: 5,
+            max: 100
+          };
+
+          // For animation purpose only
+          humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
+
+          // Show real data
+          humidityGaugeData.setValue(0,1,parseFloat(latest.humidity));
+              
+          humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
+
+          var data = new google.visualization.DataTable();
+
+          data.addColumn('datetime', 'Time');
+          data.addColumn('number', 'Temp');
+          data.addColumn('number', 'Humidity');
+    
+          $.each(results, function (i, row) {
+            data.addRow([
+              (new Date(row.timestamp)),
+              parseFloat(row.temp),
+              parseFloat(row.humidity),
+            ]);
+          });
+
+          var chart = new google.visualization.LineChart($('#temperature').get(0));
+          chart.draw(data, {
+            title: 'Historical Data'
+          });
+
+        });
+      }
+
+      // load chart lib
+      google.load('visualization', '1', {
+        packages: ['corechart','gauge']
+      });
+
+      // call drawChart once google charts is loaded
+      google.setOnLoadCallback(drawChart);
+    </script>
+
+  </head>
+  <body style="text-align:center">
+    <h1 >Home Climate Monitoring</h1>
+    <div id="tempGauge" style="display:inline-block;width:200px;margin-left:auto;margin-right:auto;"></div>
+    <div id="humidityGauge" style="display:inline-block;width:200px;margin-left:auto;margin-right:auto;"></div>
+    <div id="temperature" style="width: 100%;"></div>
+  </body>
+</html>
