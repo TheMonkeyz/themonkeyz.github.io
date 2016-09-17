@@ -31,11 +31,12 @@
             ['Temp', 0],
           ]);
           var tempGaugeOptions = {
-            width: 600,
+            width: 300, height: 300,
             redFrom: 30, redTo: 50,
             greenFrom:21, greenTo: 30,
             yellowFrom:0, yellowTo: 21,
-            minorTicks: 5,
+            yellowColor: "#00ccff",
+            minorTicks: 2.5,
             max: 50
           };
 
@@ -53,7 +54,7 @@
             ['Humidity', 0],
           ]);
           var humidityGaugeOptions = {
-            width: 600,
+            width: 300, height: 300,
             redFrom: 45, redTo: 100,
             greenFrom:30, greenTo: 45,
             yellowFrom:0, yellowTo: 30,
@@ -103,8 +104,8 @@
   </head>
   <body style="text-align:center">
     <h1 >Home Climate Monitoring</h1>
-    <div id="tempGauge" style="display:inline-block;width:200px;margin-left:auto;margin-right:auto;"></div>
-    <div id="humidityGauge" style="display:inline-block;width:200px;margin-left:auto;margin-right:auto;"></div>
+    <div id="tempGauge" style="display:inline-block;width:300px;margin-left:auto;margin-right:auto;"></div>
+    <div id="humidityGauge" style="display:inline-block;width:300px;margin-left:auto;margin-right:auto;"></div>
     <div id="temperature" style="width: 100%;"></div>
   </body>
 </html>
