@@ -116,7 +116,9 @@
   
             var chart = new google.visualization.LineChart($('#temperature').get(0));
             chart.draw(data, {
-              title: 'Historical Data', height: 300
+              title: 'Historical Data', 
+              height: 300,
+              theme: 'maximized'
             });
   
           });
@@ -140,9 +142,9 @@
   <body style="text-align:center">
     <div id="tempGauge" style="display:inline-block;width:300px;margin-left:auto;margin-right:auto;"></div>
     <div id="humidityGauge" style="display:inline-block;width:300px;margin-left:auto;margin-right:auto;"></div>
-    <div id="temperature" style="width: 100%;"></div>
-    <div id="fullscreen-button" style="display:inline-block"><button onclick="launchIntoFullscreen(document.documentElement)">Full-screen</button></div>
-    <div id="fullscreen-button" style="display:inline-block"><button onclick="exitFullscreen()">Exit Full-screen</button></div>
+    <div id="temperature" style="width: 95%;display:inline-block"></div>
+    <div id="fullscreen-button" style="display:block"><button onclick="launchIntoFullscreen(document.documentElement)">Full-screen</button></div>
+    <div id="fullscreen-button" style="display:block"><button onclick="exitFullscreen()">Exit Full-screen</button></div>
 
   </body>
 </html>
