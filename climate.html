@@ -44,83 +44,96 @@
         // JSONP request
         var jsonData = $.ajax({
           url:  cloud_url + public_key + '.json',
-          data: {page: 2},
+          data: {page: 1},
           dataType: 'jsonp',
         }).done(function (results) {
-          var latest = results[0];
-          
-          var jsonData = $.ajax({
+          var combinedResults = results
+          console.log(results);
+          console.log(combinedResults);
+            var jsonData = $.ajax({
             url:  cloud_url + public_key + '.json',
-            data: {page: 1},
+            data: {page: 2},
             dataType: 'jsonp',
           }).done(function (results) {
-            latest = $.extend(latest, results);            
-            var tempGauge = new google.visualization.Gauge($('#tempGauge').get(0));
-            var tempGaugeData = google.visualization.arrayToDataTable([
-              ['Label', 'Value'],
-              ['Temp', 0],
-            ]);
-            var tempGaugeOptions = {
-              width: 300, height: 300,
-              redFrom: 30, redTo: 50,
-              greenFrom:21, greenTo: 30,
-              yellowFrom:0, yellowTo: 21,
-              yellowColor: "#00ccff",
-              minorTicks: 2.5,
-              max: 50
-            };
-  
-            // For animation purpose only
-            //tempGauge.draw(tempGaugeData,tempGaugeOptions);
-  
-            // Show real data
-            tempGaugeData.setValue(0,1,parseFloat(latest[0].temp));
-                
-            tempGauge.draw(tempGaugeData,tempGaugeOptions);
-  
-            var humidityGauge = new google.visualization.Gauge($('#humidityGauge').get(0));
-            var humidityGaugeData = google.visualization.arrayToDataTable([
-              ['Label', 'Value'],
-              ['Humidity', 0],
-            ]);
-            var humidityGaugeOptions = {
-              width: 300, height: 300,
-              redFrom: 45, redTo: 100,
-              greenFrom:30, greenTo: 45,
-              yellowFrom:0, yellowTo: 30,
-              minorTicks: 5,
-              max: 100
-            };
-  
-            // For animation purpose only
-            //humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
-  
-            // Show real data
-            humidityGaugeData.setValue(0,1,parseFloat(latest[0].humidity));
-                
-            humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
-  
-            var data = new google.visualization.DataTable();
-  
-            data.addColumn('datetime', 'Time');
-            data.addColumn('number', 'Temp');
-            data.addColumn('number', 'Humidity');
-      
-            $.each(results, function (i, row) {
-              data.addRow([
-                (new Date(row.timestamp)),
-                parseFloat(row.temp),
-                parseFloat(row.humidity),
+            combinedResults = combinedResults.concat(results);
+            console.log(results);
+            console.log(combinedResults);
+            var jsonData = $.ajax({
+              url:  cloud_url + public_key + '.json',
+              data: {page: 3},
+              dataType: 'jsonp',
+            }).done(function (results) {
+              combinedResults = combinedResults.concat(results);
+              console.log(results);
+              console.log(combinedResults);
+              var latest = combinedResults[0];
+              var tempGauge = new google.visualization.Gauge($('#tempGauge').get(0));
+              var tempGaugeData = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Temp', 0],
               ]);
+              var tempGaugeOptions = {
+                width: 300, height: 300,
+                redFrom: 30, redTo: 50,
+                greenFrom:21, greenTo: 30,
+                yellowFrom:0, yellowTo: 21,
+                yellowColor: "#00ccff",
+                minorTicks: 2.5,
+                max: 50
+              };
+    
+              // For animation purpose only
+              //tempGauge.draw(tempGaugeData,tempGaugeOptions);
+    
+              // Show real data
+              tempGaugeData.setValue(0,1,parseFloat(latest.temp));
+                  
+              tempGauge.draw(tempGaugeData,tempGaugeOptions);
+    
+              var humidityGauge = new google.visualization.Gauge($('#humidityGauge').get(0));
+              var humidityGaugeData = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Humidity', 0],
+              ]);
+              var humidityGaugeOptions = {
+                width: 300, height: 300,
+                redFrom: 45, redTo: 100,
+                greenFrom:30, greenTo: 45,
+                yellowFrom:0, yellowTo: 30,
+                minorTicks: 5,
+                max: 100
+              };
+    
+              // For animation purpose only
+              //humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
+    
+              // Show real data
+              humidityGaugeData.setValue(0,1,parseFloat(latest.humidity));
+                  
+              humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
+    
+              var data = new google.visualization.DataTable();
+    
+              data.addColumn('datetime', 'Time');
+              data.addColumn('number', 'Temp');
+              data.addColumn('number', 'Humidity');
+        
+              $.each(combinedResults, function (i, row) {
+                data.addRow([
+                  (new Date(row.timestamp)),
+                  parseFloat(row.temp),
+                  parseFloat(row.humidity),
+                ]);
+              });
+    
+              var chart = new google.visualization.LineChart($('#temperature').get(0));
+              chart.draw(data, {
+                title: 'Historical Data', 
+                height: 285,
+                theme: 'maximized',
+                explorer: {}
+              });
             });
-  
-            var chart = new google.visualization.LineChart($('#temperature').get(0));
-            chart.draw(data, {
-              title: 'Historical Data', 
-              height: 285,
-              theme: 'maximized'
-            });
-  
           });
         
         });
