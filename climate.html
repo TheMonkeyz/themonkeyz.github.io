@@ -69,7 +69,7 @@
               var tempGauge = new google.visualization.Gauge($('#tempGauge').get(0));
               var tempGaugeData = google.visualization.arrayToDataTable([
                 ['Label', 'Value'],
-                ['Temp', 0],
+                ['Temp\u00E9rature', 0],
               ]);
               var tempGaugeOptions = {
                 width: 300, height: 300,
@@ -93,7 +93,7 @@
               var humidityGauge = new google.visualization.Gauge($('#humidityGauge').get(0));
               var humidityGaugeData = google.visualization.arrayToDataTable([
                 ['Label', 'Value'],
-                ['Humidity', 0],
+                ['Humidit\u00E9', 0],
               ]);
               var humidityGaugeOptions = {
                 width: 300, height: 300,
@@ -116,8 +116,8 @@
               var data = new google.visualization.DataTable();
     
               data.addColumn('datetime', 'Time');
-              data.addColumn('number', 'Temp');
-              data.addColumn('number', 'Humidity');
+              data.addColumn('number', 'Temp\u00E9rature');
+              data.addColumn('number', 'Humidit\u00E9');
         
               $.each(combinedResults, function (i, row) {
                 data.addRow([
