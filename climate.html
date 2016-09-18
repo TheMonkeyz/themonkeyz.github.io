@@ -50,7 +50,7 @@
             //tempGauge.draw(tempGaugeData,tempGaugeOptions);
   
             // Show real data
-            tempGaugeData.setValue(0,1,parseFloat(latest.temp));
+            tempGaugeData.setValue(0,1,parseFloat(latest[0].temp));
                 
             tempGauge.draw(tempGaugeData,tempGaugeOptions);
   
@@ -72,7 +72,7 @@
             //humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
   
             // Show real data
-            humidityGaugeData.setValue(0,1,parseFloat(latest.humidity));
+            humidityGaugeData.setValue(0,1,parseFloat(latest[0].humidity));
                 
             humidityGauge.draw(humidityGaugeData,humidityGaugeOptions);
   
