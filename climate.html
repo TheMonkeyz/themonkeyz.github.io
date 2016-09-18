@@ -20,14 +20,14 @@
         // JSONP request
         var jsonData = $.ajax({
           url:  cloud_url + public_key + '.json',
-          data: {page: 1},
+          data: {page: 2},
           dataType: 'jsonp',
         }).done(function (results) {
           var latest = results[0];
           
           var jsonData = $.ajax({
             url:  cloud_url + public_key + '.json',
-            data: {page: 2},
+            data: {page: 1},
             dataType: 'jsonp',
           }).done(function (results) {
             latest = $.extend(latest, results);            
