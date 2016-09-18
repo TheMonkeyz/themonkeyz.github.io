@@ -9,7 +9,31 @@
     
     <!-- EXAMPLE SCRIPT -->
     <script>
+      // Find the right method, call on correct element
+      function launchIntoFullscreen(element) {
+        if(element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if(element.mozRequestFullScreen) {
+          element.mozRequestFullScreen();
+        } else if(element.webkitRequestFullscreen) {
+          element.webkitRequestFullscreen();
+        } else if(element.msRequestFullscreen) {
+          element.msRequestFullscreen();
+        }
+      }
 
+      // Whack fullscreen
+      function exitFullscreen() {
+        if(document.exitFullscreen) {
+          document.exitFullscreen();
+        } else if(document.mozCancelFullScreen) {
+          document.mozCancelFullScreen();
+        } else if(document.webkitExitFullscreen) {
+          document.webkitExitFullscreen();
+        }
+      }
+      
+      
       // onload callback
       function drawChart() {
 
@@ -117,5 +141,8 @@
     <div id="tempGauge" style="display:inline-block;width:300px;margin-left:auto;margin-right:auto;"></div>
     <div id="humidityGauge" style="display:inline-block;width:300px;margin-left:auto;margin-right:auto;"></div>
     <div id="temperature" style="width: 100%;"></div>
+    <div id="fullscreen-button" style="display:inline-block"><button onclick="launchIntoFullscreen(document.documentElement)">Full-screen</button></div>
+    <div id="fullscreen-button" style="display:inline-block"><button onclick="exitFullscreen()">Exit Full-screen</button></div>
+
   </body>
 </html>
